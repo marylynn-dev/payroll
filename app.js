@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const createError = require('http-errors')
 const { verifyAccessToken } = require('./middleware/jwt')
 const errorHandler = require('./middleware/error')
+const cors = require('cors')
 
 //create express app
 const app = express()
@@ -12,6 +13,7 @@ const app = express()
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 
 //route handlers
 const userRoutes = require('./routes/user')
@@ -44,7 +46,7 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 //server listenning
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 app.listen(PORT, () => {
     console.log(`Server is listenning on port ${PORT}`)

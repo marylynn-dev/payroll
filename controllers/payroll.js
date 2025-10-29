@@ -89,6 +89,28 @@ const getPayslip = async (req, res) => {
   }
 };
 
+// GET /payroll/latest/:employeeId
+const getLatestPayslip = async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+
+    // Find the most recent payroll by date
+    const latestPayroll = await Payroll.findOne({ employee: employeeId })
+      .sort({ generatedAt: -1 }) // latest first
+      .populate("employee", "firstName lastName email position department");
+
+    if (!latestPayroll) {
+      return res.status(404).json({ message: "No payslip found for this employee" });
+    }
+
+    res.json(latestPayroll);
+  } catch (err) {
+    console.error("Error fetching latest payslip:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
 module.exports = {
-  runPayroll, getPayrollHistory, getPayslip
+  runPayroll, getPayrollHistory, getPayslip, getLatestPayslip
 }
