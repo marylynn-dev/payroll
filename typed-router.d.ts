@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>>,
     '/employeeDashboard': RouteRecordInfo<'/employeeDashboard', '/employeeDashboard', Record<never, never>, Record<never, never>>,
+    '/hr': RouteRecordInfo<'/hr', '/hr', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -44,6 +45,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/employeeDashboard.vue': {
       routes: '/employeeDashboard'
+      views: never
+    }
+    'src/pages/hr.vue': {
+      routes: '/hr'
       views: never
     }
   }

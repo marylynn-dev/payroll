@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card flat class="fill-screen">
       <div class="d-flex align-center justify-space-between mb-6">
-        <h2 class="text-h5 font-weight-medium">Employee Dashboard</h2>
+        <h2 class="text-h5 font-weight-medium">Hr Dashboard</h2>
         <div class="d-flex align-center">
           <v-avatar size="40" class="mr-2" color="primary" variant="flat">
             <template v-if="dashboard.employee?.avatar">
@@ -212,7 +212,7 @@ import { getDaysUntilPayday } from "@/utils/payday";
 
 const tab = ref("dashboard");
 const dashboard = useEmployeeDashboard();
-const employeeId = "68debbe7b15306e5017d1a1b"; // Example
+const employeeId = "68deb4b4fd0d65084c219625"; // Example
 
 const paydayInfo = getDaysUntilPayday();
 
