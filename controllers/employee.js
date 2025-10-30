@@ -13,7 +13,7 @@ const list = async (req, res) => {
     res.send(employees);
 };
 
-const get = async (req, res) => {
+const getOne = async (req, res) => {
     const e = await Employee.findById(req.params.id);
     if (!e) return res.status(404).send({ message: 'Not found' });
     res.send(e);
@@ -33,7 +33,7 @@ const del = async (req, res) => {
 module.exports = {
     create,
     list,
-    get,
+    getOne,
     update,
     del
 }
