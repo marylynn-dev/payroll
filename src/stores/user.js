@@ -28,74 +28,74 @@ export const useUserStore = defineStore("userStore", {
       }
     },
 
-    // ✅ List all employees
+    // ✅ List all users
     async fetch() {
       try {
         this.loading = true;
-        const data = await getData("/employees");
-        this.employees = data;
+        const data = await getData("/users");
+        this.users = data;
       } catch (error) {
-        this.error = error.message || "Failed to fetch employees";
+        this.error = error.message || "Failed to fetch users";
         console.error(this.error);
       } finally {
         this.loading = false;
       }
     },
 
-    // ✅ Get single employee details
-    async fetchEmployeeById(id) {
+    // ✅ Get single user details
+    async fetchuserById(id) {
       try {
         this.loading = true;
-        const data = await getData(`/employee/${id}`);
-        this.employee = data;
+        const data = await getData(`/user/${id}`);
+        this.user = data;
       } catch (error) {
-        this.error = error.message || "Failed to fetch employee details";
+        this.error = error.message || "Failed to fetch user details";
         console.error(this.error);
       } finally {
         this.loading = false;
       }
     },
 
-    // ✅ Update employee info (admin/hr)
-    async updateEmployee(id, payload) {
+    // ✅ Update user info (admin/hr)
+    async updateuser(id, payload) {
       try {
         this.loading = true;
         const data = await putData(
-          `/employees/${id}`,
+          `/users/${id}`,
           payload,
-          "Employee updated successfully!"
+          "user updated successfully!"
         );
-        this.employee = data;
-        const index = this.employees.findIndex((e) => e._id === id);
-        if (index !== -1) this.employees[index] = data;
+        this.user = data;
+        const index = this.users.findIndex((e) => e._id === id);
+        if (index !== -1) this.users[index] = data;
         return data;
       } catch (error) {
-        this.error = error.message || "Failed to update employee";
+        this.error = error.message || "Failed to update user";
         console.error(this.error);
       } finally {
         this.loading = false;
       }
     },
 
-    // ✅ Delete employee (admin/hr)
-    async deleteEmployee(id) {
+    // ✅ Delete user (admin/hr)
+    async deleteuser(id) {
       try {
         this.loading = true;
-        await deleteData(`/employees/${id}`, "Employee deleted successfully!");
-        this.employees = this.employees.filter((e) => e._id !== id);
+        await deleteData(`/users/${id}`, "user deleted successfully!");
+        this.users = this.users.filter((e) => e._id !== id);
       } catch (error) {
-        this.error = error.message || "Failed to delete employee";
+        this.error = error.message || "Failed to delete user";
         console.error(this.error);
       } finally {
         this.loading = false;
       }
     },
 
-    async fetchPayrollHistory(employeeId) {
+    async fetchPayrollHistory(userId) {
       try {
         this.loading = true;
         // 🔥 Uses the token automatically via Axios interceptor
-        const data = await getData(`/payroll/${employeeId}`);
+        const data = await getData(`/payroll/${userId}`);
         this.payrollHistory = data;
         return data;
       } catch (error) {
@@ -106,11 +106,11 @@ export const useUserStore = defineStore("userStore", {
       }
     },
 
-    async fetchlatestPayslip(employeeId) {
+    async fetchlatestPayslip(userId) {
       try {
         this.loading = true;
         // 🔥 Uses the token automatically via Axios interceptor
-        const data = await getData(`/payroll/latestPayslip/${employeeId}`);
+        const data = await getData(`/payroll/latestPayslip/${userId}`);
         this.latestPayslip = data;
         console.log(data)
         return data;

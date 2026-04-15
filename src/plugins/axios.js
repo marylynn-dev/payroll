@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import router from "@/router"; // ✅ Import router for redirection
 
 // 🔧 Axios instance setup
 const api = axios.create({
@@ -10,40 +11,56 @@ const api = axios.create({
   },
 });
 
-// 🔐 Attach token
+// 🔐 Attach token automatically to every request
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
+    // ✅ This satisfies your backend's verifyAccessToken requirement
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // ⚠️ Handle errors globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    const status = error.response?.status;
     const message =
       error.response?.data?.message || error.message || "An error occurred";
-    console.error("API Error:", message);
 
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: message,
-      confirmButtonColor: "#d33",
-    });
+    // ✅ If token is invalid or expired (Unauthorized)
+    if (status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user"); // Clear user data too
+
+      Swal.fire({
+        icon: "warning",
+        title: "Session Expired",
+        text: "Please login again to continue.",
+        confirmButtonColor: "#3085d6",
+      }).then(() => {
+        router.push("/"); // Redirect to login
+      });
+    } else {
+      // General errors
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message,
+        confirmButtonColor: "#d33",
+      });
+    }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 /* ----------------------------
-   🔽 CRUD API HELPERS
+    🔽 CRUD API HELPERS
 ----------------------------- */
 
-// ✅ GET request
 export const getData = async (endpoint, params = {}, showSuccess = false) => {
   const res = await api.get(endpoint, { params });
   if (showSuccess)
@@ -56,50 +73,50 @@ export const getData = async (endpoint, params = {}, showSuccess = false) => {
   return res.data;
 };
 
-// ✅ POST request
 export const postData = async (
   endpoint,
   data,
-  successMsg = "Created successfully!"
+  successMsg = "Created successfully!",
 ) => {
   const res = await api.post(endpoint, data);
-  Swal.fire({
-    icon: "success",
-    title: successMsg,
-    timer: 1500,
-    showConfirmButton: false,
-  });
+  if (successMsg)
+    Swal.fire({
+      icon: "success",
+      title: successMsg,
+      timer: 1500,
+      showConfirmButton: false,
+    });
   return res.data;
 };
 
-// ✅ PUT request
 export const putData = async (
   endpoint,
   data,
-  successMsg = "Updated successfully!"
+  successMsg = "Updated successfully!",
 ) => {
   const res = await api.put(endpoint, data);
-  Swal.fire({
-    icon: "success",
-    title: successMsg,
-    timer: 1500,
-    showConfirmButton: false,
-  });
+  if (successMsg)
+    Swal.fire({
+      icon: "success",
+      title: successMsg,
+      timer: 1500,
+      showConfirmButton: false,
+    });
   return res.data;
 };
 
-// ✅ DELETE request
 export const deleteData = async (
   endpoint,
-  successMsg = "Deleted successfully!"
+  successMsg = "Deleted successfully!",
 ) => {
   const res = await api.delete(endpoint);
-  Swal.fire({
-    icon: "success",
-    title: successMsg,
-    timer: 1500,
-    showConfirmButton: false,
-  });
+  if (successMsg)
+    Swal.fire({
+      icon: "success",
+      title: successMsg,
+      timer: 1500,
+      showConfirmButton: false,
+    });
   return res.data;
 };
 

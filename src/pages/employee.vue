@@ -220,7 +220,7 @@ const paydayInfo = getDaysUntilPayday();
 onMounted(async () => {
   localStorage.setItem(
     "token",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjE4MDM4OTcsImV4cCI6MTc2MTgwNzQ5NywiYXVkIjoidW5kZWZpbmVkIiwiaXNzIjoibWUuY29tIn0.Bd_mwyTSF3SdZK5gNnqoWAVm9b_95oTxvWwKlvZGQyo"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjIyNTAxNjAsImV4cCI6MTc2MjI1Mzc2MCwiYXVkIjoidW5kZWZpbmVkIiwiaXNzIjoibWUuY29tIn0.z3GtmEE2_lKuIsvVozP7jxrN3yUdLyrf_U8RVMYBHLI"
   );
 
   await dashboard.fetchEmployeeById(employeeId);

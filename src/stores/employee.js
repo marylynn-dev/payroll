@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { getData, postData, putData, deleteData } from "@/plugins/axios"; // ✅ use full helpers
 import Swal from "sweetalert2";
 
-export const useEmployeeDashboard = defineStore("employeeDashboard", {
+export const useEmployeeStore = defineStore("employeeDashboard", {
   state: () => ({
     employees: [],
     employee: null,
@@ -36,7 +36,7 @@ export const useEmployeeDashboard = defineStore("employeeDashboard", {
     async fetchEmployees() {
       try {
         this.loading = true;
-        const data = await getData("/employees");
+        const data = await getData("/employee");
         this.employees = data;
       } catch (error) {
         this.error = error.message || "Failed to fetch employees";
